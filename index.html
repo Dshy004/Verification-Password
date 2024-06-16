@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vérification mot de passe</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="assets/fontawesome/css/all.css">
+    <style>
+        fieldset {
+            background: linear-gradient(45deg, #38d39f, #202020);
+            background-size: 400% 400%;
+            animation: back-animation 10s ease infinite;
+        }@keyframes back-animation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        .alert.alert-danger {
+            display: none;
+        }
+        .input-box.button button {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="container bg-light vh-100 overflow-hidden d-flex align-items-center justify-content-center">
+    <fieldset class="px-4 py-5 border-0 rounded">
+        <legend class="mb-3 text-center text-white"><b>Créer un mot de passe</b></legend>
+        <form method="post" style="width: 325px;">
+            <div class="input-group flex-nowrap mb-3">
+                <span class="p-3 input-group-text bg-light text-secondary" id="addon-wrapping"><i class="fas fa-lock"></i></span>
+                <input type="password" class="form-control p-2" name="password" id="password" placeholder="Entrer le mot de passe" aria-label="Entrer le mot de passe" aria-describedby="addon-wrapping" required>
+                <span class="p-3 input-group-text bg-light text-secondary" id="addon-wrapping" style="cursor: pointer;"><i class="fas fa-eye-slash show" style="cursor: pointer;"></i></span>
+            </div>
+            <div class="alert alert-danger" role="alert" id="smserror"></div>
+            <div class="input-box button">
+                <button type="submit" name="valid_password" id="btnsubmit" class="btn-sm btn btn-secondary"><b>VALIDER</b></button>
+            </div>
+        </form>
+    </fieldset>
+
+    <script>
+        password = document.querySelector("#password"),
+        pwShow = document.querySelector(".show"),
+        smserror = document.querySelector("#smserror"),
+        btnsubmit = document.querySelector("#btnsubmit");
+
+        pwShow.addEventListener("click", ()=>{
+            if(password.type === "password"){
+                password.type = "text";
+                pwShow.classList.replace("fa-eye-slash","fa-eye");
+            }else {
+                password.type = "password";
+                pwShow.classList.replace("fa-eye","fa-eye-slash");
+            }
+        });
+
+        document.querySelector('input[name="password"]').addEventListener('input', function() {
+            var passInput = this.value.length;
+
+            smserror.style.display = "block";
+            if(passInput == 0) {
+                smserror.style.display = "none";
+                btnsubmit.className = 'btn-sm btn btn-secondary';
+            } else if (passInput > 0 && passInput < 4) {
+                smserror.innerHTML = "Votre mot de passe doit contenir au moins 8 caractères !";
+                smserror.className = 'alert alert-danger';
+                btnsubmit.className = 'btn-sm btn btn-danger';
+            } else if (passInput >= 4 && passInput <= 7) {
+                smserror.innerHTML = "Ce n'est toujours pas bon, continuez !";
+                smserror.className = 'alert alert-warning';
+                btnsubmit.className = 'btn-sm btn btn-warning';
+            } else {
+                smserror.innerHTML = "Super, le mot de passe peut être valider !";
+                smserror.className = 'alert alert-primary';
+                btnsubmit.className = 'btn-sm btn btn-primary';
+            }
+        });
+    </script>
+</body>
+</html>
